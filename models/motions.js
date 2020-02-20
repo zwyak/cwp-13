@@ -16,12 +16,12 @@ module.exports = (Sequelize, sequelize) => {
     },
     vehicleId: {
       type: Sequelize.INTEGER
-    }, {
-      getterMethods: {
-        fullName() {
-          return this.firstname + ' ' + this.lastname;
-        }
+    }
+  }, {
+    geterMethods:{
+      latLng(){
+        return this.latitude + ' ' + this.longitude;
       }
     }
   });
-};
+}
