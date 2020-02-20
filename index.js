@@ -11,9 +11,13 @@ const fleetsRouter = express.Router();
 const motionsRouter = express.Router();
 const vehiclesRouter = express.Router();
 
-app.get('/', (req, res) => {
-  res.send('Hello World!');
+fleetsRouter.get('/readall', (req, res) => {
+  db.fleets.findAll({raw: true}).then((f) =>{
+    res.send(f);
+  });
 });
+
+app.use("/api/fleets", fleetsRouter);
 
 app.listen(3000, () => {
   console.log('Server app listening on port 3000!');
