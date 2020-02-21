@@ -14,6 +14,8 @@ const vehiclesRouter = express.Router();
 fleetsRouter.get('/readall', (req, res) => {
   db.fleets.findAll({raw: true}).then((f) =>{
     res.send(f);
+  }).catch((err) =>{
+    res.sendStatus(404);
   });
 });
 
@@ -33,7 +35,33 @@ fleetsRouter.post('/create', (req, res) => {
     res.send(f.dataValues);
   }).catch((err) =>{
     res.sendStatus(400);
-  })
+  });
+});
+
+fleetsRouter.post('/update', (req, res) => {
+  db.fleets.update({
+    name: req.nody.name
+  }, {
+    where: {
+      id: req.body.id
+    }
+  }).then((f) =>{
+    res.send(d.dataValues);
+  }).catch((err) =>{
+    res.sendStatus(400);
+  });
+});
+
+fleetsRouter.post('/delete', (req, res) => {
+  db.fleets..destroy({
+    where: {
+      id: req.body.id
+    }
+  }).then((f) => {
+    res.send(f.dataValues);
+  }).catch((err) =>{
+    res.sendStatus(400);
+  });
 });
 
 app.use("/api/fleets", fleetsRouter);
