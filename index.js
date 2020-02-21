@@ -132,6 +132,21 @@ vehiclesRouter.post('/delete', (req, res) => {
 
 app.use("/api/vehicles", vehiclesRouter);
 
+motionsRouter.post('/create', (req, res) => {
+  db.motions.create({
+    longitude: req.body.longitude,
+    latitude: req.body.latitude,
+    time: Date.now(),
+    vehicleId: req.body.vehicleId
+  }).then((m) =>{
+    res.send(m.dataValues);
+  }).catch((err) =>{
+    res.sendStatus(400);
+  });
+});
+
+app.use("/api/motions", motionsRouter);
+
 app.listen(3000, () => {
   console.log('Server app listening on port 3000!');
 })

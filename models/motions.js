@@ -12,7 +12,7 @@ module.exports = (Sequelize, sequelize) => {
       type: Sequelize.DOUBLE
     },
     time:{
-      type: Sequelize.DATE
+      type: Sequelize.INTEGER
     },
     vehicleId: {
       type: Sequelize.INTEGER
