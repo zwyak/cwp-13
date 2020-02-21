@@ -73,12 +73,64 @@ fleetsRouter.post('/delete', (req, res) => {
 app.use("/api/fleets", fleetsRouter);
 
 vehiclesRouter.get('/readall', (req, res) => {
-  db.vehicles.findAll({raw: true}).then((f) =>{
-    res.send(f);
+  db.vehicles.findAll({raw: true}).then((v) =>{
+    res.send(v);
   });
 });
 
-app.use("/api/fleets", vehiclesRouter);
+vehiclesRouter.get('/read', (req, res) => {
+  db.vehicles.findByPk(req.query.id, {raw: true}).then((v) =>{
+    res.send(v);
+  })
+  .catch((err) =>{
+    res.sendStatus(404);
+  });
+});
+
+vehiclesRouter.post('/create', (req, res) => {
+  db.vehicles.create({
+    name: req.body.name,
+    fleetId: req.body.fleetId
+  }).then((v) =>{
+    res.send(v.dataValues);
+  }).catch((err) =>{
+    res.sendStatus(400);
+  });
+});
+
+vehiclesRouter.post('/update', (req, res) => {
+  if (!utils.vehiclesValidate(req.body.id, req.body.name, req.body.fleetId)){
+    res.sendStatus(400);
+    return;
+  }
+
+  db.vehicles.update({
+    name: req.body.name,
+    fleetId: req.body.fleetId
+  }, {
+    where: {
+      id: req.body.id
+    }
+  }).then(() =>{
+    res.sendStatus(200);
+  }).catch((err) =>{
+    res.sendStatus(400);
+  });
+});
+
+vehiclesRouter.post('/delete', (req, res) => {
+  db.vehicles.destroy({
+    where: {
+      id: req.body.id
+    }
+  }).then(() => {
+    res.sendStatus(200);
+  }).catch((err) =>{
+    res.sendStatus(400);
+  });
+});
+
+app.use("/api/vehicles", vehiclesRouter);
 
 app.listen(3000, () => {
   console.log('Server app listening on port 3000!');
