@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize');
 const config = require('./config.json');
 const db = require('./models')(Sequelize, config);
+const utils = require('./utils')
 const express = require('express');
 const bodyParser = require('body-parser');
 
@@ -39,6 +40,11 @@ fleetsRouter.post('/create', (req, res) => {
 });
 
 fleetsRouter.post('/update', (req, res) => {
+  if (!utils.fleetValidate(req.body.id, req.body.name)){
+    res.sendStatus(400);
+    return;
+  }
+
   db.fleets.update({
     name: req.nody.name
   }, {
