@@ -158,8 +158,8 @@ geoRouter.get('/millage', (req, res) => {
   db.motions.findAll({attributes: ['latitude', 'longitude'], where:{vehicleId: req.query.id}, raw: true}).then((m) =>{
     if (m.lenght < 2) res.sendStatus(404);
     else res.send(JSON.stringify(
-      geolib.getDistance(m)
-    ))
+      geolib.getDistance(m[0], m[m.lenght-1])
+    ));
   });
 });
 
