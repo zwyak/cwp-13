@@ -26,6 +26,16 @@ fleetsRouter.get('/read', (req, res) => {
   });
 });
 
+fleetsRouter.post('/create', (req, res) => {
+  db.fleets.create({
+    name: req.body.name
+  }).then((f) =>{
+    res.send(f.dataValues);
+  }).catch((err) =>{
+    res.sendStatus(400);
+  })
+});
+
 app.use("/api/fleets", fleetsRouter);
 
 vehiclesRouter.get('/readall', (req, res) => {
