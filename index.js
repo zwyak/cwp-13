@@ -12,6 +12,7 @@ app.use(bodyParser.json());
 const fleetsRouter = express.Router();
 const motionsRouter = express.Router();
 const vehiclesRouter = express.Router();
+const geoRouter = express.Router();
 
 fleetsRouter.get('/readall', (req, res) => {
   db.fleets.findAll({raw: true}).then((f) =>{
@@ -152,6 +153,17 @@ motionsRouter.post('/create', (req, res) => {
 });
 
 app.use("/api/motions", motionsRouter);
+
+geoRouter.get('/millage', (req, res) => {
+  db.motions.findAll({attributes: ['latitude', 'longitude'], where:{vehicleId: req.query.id}, raw: true}).then((m) =>{
+    if (m.lenght < 2) res.sendStatus(404);
+    else res.send(JSON.stringify(
+      geolib.getDistance(m)
+    ))
+  });
+});
+
+app.use("/api/vehicles", geoRouter);
 
 app.listen(3000, () => {
   console.log('Server app listening on port 3000!');
