@@ -11,3 +11,10 @@ const vehiclesValidate = (id, name, fleetId) =>{
 }
 
 module.exports.vehiclesValidate = vehiclesValidate;
+
+const motionsValidate = (longitude, latitude, vehicleId) =>{
+  if (longitude && latitude && vehicleId && longitude >= 0 && latitude >= 0) return true;
+  else return false;
+}
+
+module.exports.motionsValidate = motionsValidate;

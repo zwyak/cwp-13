@@ -17,7 +17,7 @@ module.exports = (Sequelize, config) => {
   fleets.hasOne(vehicles);
   vehicles.hasOne(motions);
 
-  sequelize.sync({force:true})
+  sequelize.sync()
   .then((result) => {
     console.log(result);
   });

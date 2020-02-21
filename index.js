@@ -133,6 +133,11 @@ vehiclesRouter.post('/delete', (req, res) => {
 app.use("/api/vehicles", vehiclesRouter);
 
 motionsRouter.post('/create', (req, res) => {
+  if (!utils.motionsValidate(req.body.longitude, req.body.latitude, req.body.vehicleId)){
+    res.sendStatus(400);
+    return;
+  }
+
   db.motions.create({
     longitude: req.body.longitude,
     latitude: req.body.latitude,
