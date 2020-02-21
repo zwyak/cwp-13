@@ -46,25 +46,25 @@ fleetsRouter.post('/update', (req, res) => {
   }
 
   db.fleets.update({
-    name: req.nody.name
+    name: req.body.name
   }, {
     where: {
       id: req.body.id
     }
-  }).then((f) =>{
-    res.send(d.dataValues);
+  }).then(() =>{
+    res.sendStatus(200);
   }).catch((err) =>{
     res.sendStatus(400);
   });
 });
 
 fleetsRouter.post('/delete', (req, res) => {
-  db.fleets..destroy({
+  db.fleets.destroy({
     where: {
       id: req.body.id
     }
-  }).then((f) => {
-    res.send(f.dataValues);
+  }).then(() => {
+    res.sendStatus(200);
   }).catch((err) =>{
     res.sendStatus(400);
   });
