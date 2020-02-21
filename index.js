@@ -4,6 +4,7 @@ const db = require('./models')(Sequelize, config);
 const utils = require('./utils')
 const express = require('express');
 const bodyParser = require('body-parser');
+const geolib = require('geolib');
 
 const app = express();
 app.use(bodyParser.json());
